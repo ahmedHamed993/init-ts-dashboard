@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <PageWrapper>
       <PageTitle title="الرئيسية" />
-      <Stack direction="row" justifyContent="center" gap="12px" flexWrap="wrap">
+      {/* <Stack direction="row" justifyContent="center" gap="12px" flexWrap="wrap">
         <StatisticsCard
           title="عدد المستخدمين"
           value={1000}
@@ -64,8 +64,7 @@ const Home = () => {
           Icon={BiUser}
           color={randomDarkColors[0]}
         />
-        <DataTable rows={rows} columns={columns} page={page} setPage={setPage} itemsPerPage={1} totalItems={2}/>
-      </Stack>
+      </Stack> */}
     </PageWrapper>
   );
 };

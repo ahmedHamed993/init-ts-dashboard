@@ -1,61 +1,75 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-// mui components
-import { Box, Pagination } from "@mui/material";
-import { DataGrid, GridColDef, useGridApiContext } from "@mui/x-data-grid";
-type Props = {
-    rows: any;
+// mui
+import {
+    DataGrid,
+    GridColDef,
+    gridPageCountSelector,
+    useGridApiContext,
+    useGridSelector,
+  } from "@mui/x-data-grid";
+  import { Box, Pagination, Stack } from "@mui/material";
+  // components
+  import NoItems from "../alerts/NoItems";
+  // hooks
+  import usePageParams from "../../hooks/usePageParams";
+  
+  type Props = {
+    rows: any[];
     columns: GridColDef[];
-    itemsPerPage: number;
-    totalItems: number;
-    page: number;
-    setPage: Dispatch<SetStateAction<number>> | any;
-};
-
-const DataTable = ({
+    itemsPerPage?: number;
+    totalItems?: number;
+  };
+  
+  const CustomPagination = () => {
+    const apiRef = useGridApiContext();
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+    const { page, setPage } = usePageParams();
+    return (
+      <Pagination
+        // sx={{direction:MuiTheme.direction}}
+        color="primary"
+        count={pageCount}
+        page={page}
+        defaultPage={1}
+        onChange={(event, value) => {
+          apiRef.current.setPage(value);
+          setPage(value);
+        }}
+        sx={{
+          "& .MuiButtonBase-root": {
+            direction: "ltr !important",
+          },
+        }}
+      />
+    );
+  };
+  
+  const DataTable = ({
     rows,
     columns,
-    itemsPerPage,
-    totalItems,
-    page,
-    setPage,
-}: Props) => {
-    // custom pagination for grid
-    function CustomPagination() {
-        const apiRef = useGridApiContext();
-        return (
-            <Pagination
-                color="primary"
-                count={Math.ceil(totalItems / itemsPerPage)}
-                page={page}
-                defaultPage={1}
-                onChange={(event, value) => {
-                    apiRef.current.setPage(value);
-                    setPage(value);
-                }}
-            />
-        );
-    }
-
+    itemsPerPage = 20,
+    totalItems = 20,
+  }: Props) => {
+    const { page } = usePageParams();
+    if (rows.length === 0) return <NoItems />;
     return (
-        <Box className="datagrid" width="100%" sx={{ overflow: "auto" }}>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                getRowId={(row) => row.id}
-                pagination
-                slots={{
-                    pagination: CustomPagination,
-                }}
-                paginationMode="server"
-                paginationModel={{
-                    page: page - 1,
-                    pageSize: itemsPerPage,
-                }}
-                autoHeight
-                rowCount={totalItems}
-            />
-        </Box>
+      <Box>
+        <DataGrid
+          getRowId={(row) => row.id}
+          rows={rows}
+          columns={columns}
+          pagination
+          paginationMode="server"
+          paginationModel={{
+            page: page - 1,
+            pageSize: itemsPerPage,
+          }}
+          autoHeight
+          rowCount={totalItems}
+          slots={{ pagination: CustomPagination }}
+        />
+      </Box>
     );
-};
-
-export default DataTable;
+  };
+  
+  export default DataTable;
+  
