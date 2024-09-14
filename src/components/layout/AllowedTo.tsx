@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { UserSliceState } from "../../types/types";
-import NoPermission from "../alerts/NoPermission";
+import NoItems from "../alerts/NoItems";
 import { Navigate } from "react-router";
 
 type Props = {
@@ -24,7 +24,7 @@ const AllowedTo = ({ allowedTo, children }: Props) => {
   ) : userRoles.includes(3) ? (
     <Navigate to="/exhibitor/events" />
   ) : (
-    <NoPermission />
+    <NoItems />
   );
 };
 

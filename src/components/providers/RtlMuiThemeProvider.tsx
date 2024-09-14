@@ -10,26 +10,10 @@ const cacheRtl = createCache({
   key: "muirtl",
   stylisPlugins: [prefixer, rtlPlugin],
 });
-const cacheLtr = createCache({
-  key: "muiltr",
-  stylisPlugins: [prefixer],
-});
+
 
 function RtlMuiThemeProvider({ children }: { children: ReactNode }) {
   return <CacheProvider value={cacheRtl}>{children}</CacheProvider>;
 }
 export default RtlMuiThemeProvider;
 
-export function TogglerThemeForFormRegistration({
-  lang,
-  children,
-}: {
-  lang: string;
-  children: ReactNode;
-}) {
-  return (
-    <CacheProvider value={lang === "ar" ? cacheRtl : cacheLtr}>
-      {children}
-    </CacheProvider>
-  );
-}

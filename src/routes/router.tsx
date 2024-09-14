@@ -4,7 +4,7 @@ import React from 'react';
 import Home from '../pages/home/Home';
 import Cities from '../pages/news/News';
 // layouts
-import AdminLayout from '../layouts/admin/AdminLayout';
+import MainLayout from "../components/layout/MainLayout"
 // protected routes
 import ProtectedRoutes from '../components/protectedRoutes/ProtectedRoutes';
 
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     path: '/',
     element: (
       <ProtectedRoutes>
-        <AdminLayout />
+        <MainLayout />
       </ProtectedRoutes>
     ),
     children: [
