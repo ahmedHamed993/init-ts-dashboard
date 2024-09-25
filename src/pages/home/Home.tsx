@@ -5,6 +5,8 @@ import { BiUser } from 'react-icons/bi';
 import PageWrapper from '../../components/page/PageWrapper';
 import PageTitle from '../../components/page/PageTitle';
 import DataTable from '../../components/table/DataTable';
+import SelectSearch from '../../components/form-components/SelectSearch';
+import SelectServerSearch from '../../components/form-components/SelectServerSearch';
 const randomDarkColors: string[] = [
   '#F94144',
   '#F3722C',
@@ -24,6 +26,8 @@ const rows=[
 ]
 const Home = () => {
   const [page, setPage] = useState<any>(1);
+  const options=[{id:1,title:"one"},{id:2, title:"two"}];
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
   return (
     <PageWrapper>
       <PageTitle title="الرئيسية" />
@@ -57,14 +61,7 @@ const Home = () => {
           value={1000}
           Icon={BiUser}
           color={randomDarkColors[4]}
-        />
-        <StatisticsCard
-          title="عدد المستخدمين"
-          value={900}
-          Icon={BiUser}
-          color={randomDarkColors[0]}
-        />
-      </Stack> */}
+      /> */}
     </PageWrapper>
   );
 };
