@@ -4,36 +4,33 @@ import fireAlert from "./alerts/fireAlert";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 type Fetching = (
   endpoint: string,
+  token?: string,
   method?: string,
-  headers?: Record<string, any>,
   body?: any,
-  checkAuth?: boolean
+  contentType?: string
 ) => Promise<Response>;
 const fetching: Fetching = (
   endpoint,
+  token = undefined,
   method = "GET",
-  headers = {},
   body,
-  checkAuth = true
+  contentType
 ) => {
-  if (checkAuth) {
-    if (headers?.hasOwnProperty("Authorization")) {
-      if (isTokenExpired()) {
-        window.localStorage.removeItem(LOCAL_STORAGE_USER_TOKEN_KEY);
-        fireAlert("انتهت فترة سماحية الدخول, برجاء تسجيل الدخول مرة اخرى.");
-        window.location.href = "/login";
-        return Promise.reject("unauthorized");
-      }
+  if (token) {
+    if (isTokenExpired()) {
+      handleLogout();
     }
   }
-  const options: Record<string, any> = {
-    method,
-    headers,
-  };
-  if (body) options["body"] = body;
 
-  return fetch(`${BASE_URL}${endpoint}`, options);
-  // .then((data) => data);
+  const headers: HeadersInit = {};
+  if (contentType) headers["Content-Type"] = contentType;
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+
+  return fetch(`${BASE_URL}${endpoint}`, {
+    method,
+    headers: headers,
+    body: body ? body : undefined,
+  });
 };
 export default fetching;
 
@@ -45,4 +42,10 @@ function isTokenExpired() {
     return exp <= Date.now();
   }
   return false;
+}
+function handleLogout() {
+  window.localStorage.removeItem(LOCAL_STORAGE_USER_TOKEN_KEY);
+  fireAlert("انتهت فترة سماحية الدخول, برجاء تسجيل الدخول مرة اخرى.");
+  window.location.href = "/login";
+  return Promise.reject("unauthorized");
 }

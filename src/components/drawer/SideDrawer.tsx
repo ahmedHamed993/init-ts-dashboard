@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from "react";
 // mui
 import {
   Toolbar,
@@ -7,10 +7,15 @@ import {
   Box,
   Drawer,
   AppBar,
-} from '@mui/material';
+} from "@mui/material";
 // icons
-import { CgMenuRight } from 'react-icons/cg';
-import LinksDrawer from './LinksDrawer';
+import { CgMenuRight } from "react-icons/cg";
+// components
+import LinksDrawer from "./LinksDrawer";
+import LogoutButton from "../buttons/LogoutButton";
+import AppLogo from "./AppLogo";
+// utils
+import { APP_NAME } from "../../utils/app-info";
 
 const drawerWidth = 280;
 const SideDrawer = () => {
@@ -21,14 +26,14 @@ const SideDrawer = () => {
 
   // Remove this const when copying and pasting into your project.
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       {/* app bar appears in small screen  */}
       <AppBar
         position="fixed"
         sx={{
           width: { md: `calc(100% - ${drawerWidth}px)` },
           ml: { md: `${drawerWidth}px` },
-          display: { xs: 'flex', md: 'none' },
+          display: { xs: "flex", md: "none" },
         }}
       >
         <Toolbar>
@@ -37,12 +42,12 @@ const SideDrawer = () => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { xs: 'block', md: 'none' } }}
+            sx={{ mr: 2, display: { xs: "block", md: "none" } }}
           >
             <CgMenuRight />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            BBN
+            {APP_NAME}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -59,36 +64,46 @@ const SideDrawer = () => {
         <Drawer
           // container={<Container />}
           variant="temporary"
+          SlideProps={{
+            direction: "left",
+          }}
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', md: 'none' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
+            display: { xs: "block", md: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
               width: drawerWidth,
-              backgroundColor: 'primary.main',
+              backgroundColor: "primary.main",
             },
           }}
         >
+          <AppLogo />
           <LinksDrawer />
+          <LogoutButton />
         </Drawer>
 
         <Drawer
           variant="permanent"
+          SlideProps={{
+            direction: "left",
+          }}
           sx={{
-            display: { xs: 'none', md: 'block' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
+            display: { xs: "none", md: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
               width: drawerWidth,
-              backgroundColor: 'primary.main',
+              backgroundColor: "primary.main",
             },
           }}
           open
         >
+          <AppLogo />
           <LinksDrawer />
+          <LogoutButton />
         </Drawer>
       </Box>
     </Box>

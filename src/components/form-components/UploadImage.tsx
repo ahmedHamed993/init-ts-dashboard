@@ -18,8 +18,10 @@ import { Box, Avatar, Button, Stack } from "@mui/material";
 import { FiUploadCloud } from "react-icons/fi";
 import { CiImageOn } from "react-icons/ci";
 // compoents
+// import ErrorMessage from "../messages/ErrorMessage";
 import ErrorMessage from "./ErrorMessage";
-
+// utils
+import Compressor from "compressorjs";
 // types
 type TProps<T extends FieldValues> = {
   defaultImage?: string;
@@ -27,7 +29,7 @@ type TProps<T extends FieldValues> = {
   objectFit?: "cover" | "contain";
   setValue: SetFieldValue<T>;
   errorMessage?: string | undefined;
-  height?: string;
+  height?: string | Record<string, any>;
   trigger: UseFormTrigger<T>;
   name?: Path<T>;
 };
@@ -45,16 +47,27 @@ const UploadImage: FC<TProps<any>> = ({
     defaultImage ? defaultImage : ""
   );
 
-  // useEffect(() => {
-  //   setImgSrc(defaultImage);
-  // }, [defaultImage]);
-
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
       let x = e.target.files[0];
-      showFileInPreview(x);
-      setValue(name, x);
-      triggerImgError();
+      if (x.size > 2 * 1024 * 1024) {
+        new Compressor(x, {
+          quality: (1024 * 1024) / x.size,
+          success(blob) {
+            const file = new File([blob], x.name, {
+              type: x.type,
+              lastModified: x.lastModified,
+            });
+            showFileInPreview(file as File);
+            setValue(name, file);
+            triggerImgError();
+          },
+        });
+      } else {
+        showFileInPreview(x);
+        setValue(name, x);
+        triggerImgError();
+      }
     }
   };
   const triggerImgError = () => trigger(name);
@@ -68,26 +81,20 @@ const UploadImage: FC<TProps<any>> = ({
     };
   };
   return (
-    <Stack alignItems="center" gap="8px" maxWidth="100%">
+    <Stack alignItems="center" gap="8px">
       <Box
         id="img-preview-wrapper"
         sx={{
           aspectRatio: imgAspectRatio,
-          border: "1px solid #ddd",
           minWidth: {
             xs: "200px",
-            // sm: imgAspectRatio === "1/1" ? "200px" : "400px",
           },
-          // maxWidth: imgAspectRatio === "1/1" ? "200px" : "400px",
-          backgroundColor: "#fff",
           maxHeight: "400px",
           height: height,
-          borderRadius: "4px",
+          borderRadius: "10px",
           overflow: "hidden",
+          border: "1px solid #ddd",
           position: "relative",
-          maxWidth: "100%",
-          // height: "200px",
-          // maxHeight: "400px",
         }}
       >
         <img
@@ -98,8 +105,6 @@ const UploadImage: FC<TProps<any>> = ({
             height: "100%",
             fontSize: "10rem",
             objectFit: objectFit,
-            maxWidth: "100%",
-            backgroundColor: "#fff",
           }}
         />
         {!imgSrc ? (
@@ -111,7 +116,7 @@ const UploadImage: FC<TProps<any>> = ({
             width="100%"
             zIndex="2"
             sx={{
-              backgroundColor: "#fff",
+              backgroundColor: "#f1f1f1",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -138,7 +143,7 @@ const UploadImage: FC<TProps<any>> = ({
         variant="contained"
         endIcon={<FiUploadCloud />}
       >
-        اختر الصورة
+        اختر صورة
       </Button>
     </Stack>
   );

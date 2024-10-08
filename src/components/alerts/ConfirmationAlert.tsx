@@ -1,31 +1,52 @@
-import { Button, Divider, Stack } from '@mui/material';
-import React from 'react';
-type TProps = {
-  title: string;
-  description?: string;
-  confirmFn: () => void;
-  cancelFn: () => void;
+import React, { Dispatch, ReactNode, SetStateAction } from "react";
+
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+} from "@mui/material";
+
+type Props = {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  children: ReactNode;
+  title?: string;
+  DialogActionNodes?: ReactNode;
 };
+
 const ConfirmationAlert = ({
-  title,
-  description = '',
-  confirmFn,
-  cancelFn,
-}: TProps) => {
+  open,
+  setOpen,
+  children,
+  title = "",
+  DialogActionNodes = undefined,
+}: Props) => {
+  const handleClose = () => setOpen(false);
   return (
-    <>
-      <Stack pb={2}>
-        <h4>{title}</h4>
-        <p>{description}</p>
-      </Stack>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      maxWidth="md"
+    >
+      {title && (
+        <>
+          <DialogTitle>{title}</DialogTitle>
+          <Divider flexItem />
+        </>
+      )}
+      <DialogContent
+        sx={{ minWidth: { xs: "300px", sm: "400px", md: "550px" } }}
+      >
+        {children}
+      </DialogContent>
       <Divider />
-      <Stack direction="row" gap={2} pt={2}>
-        <Button variant="outlined" onClick={confirmFn}>
-          نعم
-        </Button>
-        <Button onClick={cancelFn}>لا</Button>
-      </Stack>
-    </>
+      {DialogActionNodes && <DialogActions>{DialogActionNodes}</DialogActions>}
+    </Dialog>
   );
 };
 
