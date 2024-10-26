@@ -6,8 +6,10 @@ type IsConfirmedFilter = any;
 // constants
 const IS_DISABLED_DEFAULT_VALUE = "is_disabled:eq:true|false";
 const IS_CONFIRMED_DEFAULT_VALUE = "is_confirmed:eq:true|false";
-const STATUS_DEFAULT_VALUE = "status:eq:denied|accepted|pending";
-const CUSTOMER_STATUS_DEFAULT_VALUE = "status:eq:attended|registered|canceled";
+const FROM_DEFAULT_VALUE = "";
+const TO_DEFAULT_VALUE = "";
+const BUSINESS_STATUS_DEFAULT_VALUE = "status:eq:accepted|denied|pending";
+
 const useFilterParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const isDisabled =
@@ -16,9 +18,11 @@ const useFilterParams = () => {
   const isConfirmed =
     searchParams.get("isConfirmed") || IS_CONFIRMED_DEFAULT_VALUE;
 
-  const status = searchParams.get("status") || STATUS_DEFAULT_VALUE;
-  const customerStatus =
-    searchParams.get("customerStatus") || CUSTOMER_STATUS_DEFAULT_VALUE;
+  const from = searchParams.get("from") || FROM_DEFAULT_VALUE;
+  const to = searchParams.get("to") || TO_DEFAULT_VALUE;
+
+  const businessStatus =
+    searchParams.get("business_status") || BUSINESS_STATUS_DEFAULT_VALUE;
 
   const setIsDisabled = (value: IsDisabledFilter) => {
     searchParams.set("isDisabled", value);
@@ -32,14 +36,20 @@ const useFilterParams = () => {
     setSearchParams(searchParams);
   };
 
-  const setStatus = (value: string) => {
-    searchParams.set("status", value);
+  const setFrom = (value: string) => {
+    searchParams.set("from", value);
     searchParams.set("page", "1");
     setSearchParams(searchParams);
   };
 
-  const setCustomerStatus = (value: string) => {
-    searchParams.set("customerStatus", value);
+  const setTo = (value: string) => {
+    searchParams.set("to", value);
+    searchParams.set("page", "1");
+    setSearchParams(searchParams);
+  };
+
+  const setBusinessStatus = (value: string) => {
+    searchParams.set("business_status", value);
     searchParams.set("page", "1");
     setSearchParams(searchParams);
   };
@@ -49,10 +59,12 @@ const useFilterParams = () => {
     setIsDisabled,
     isConfirmed,
     setIsConfirmed,
-    status,
-    setStatus,
-    customerStatus,
-    setCustomerStatus,
+    from,
+    setFrom,
+    to,
+    setTo,
+    businessStatus,
+    setBusinessStatus,
   };
 };
 

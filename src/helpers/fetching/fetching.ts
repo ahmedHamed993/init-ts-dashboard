@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
-import { LOCAL_STORAGE_USER_TOKEN_KEY } from "../utils/app-info";
-import fireAlert from "./alerts/fireAlert";
+import { LOCAL_STORAGE_USER_TOKEN_KEY } from "../../utils/app-info";
+import fireAlert from "../alerts/fireAlert";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 type Fetching = (
   endpoint: string,

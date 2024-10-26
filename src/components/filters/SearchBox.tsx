@@ -7,13 +7,13 @@ import useQParams from "../../hooks/useQParams";
 type Props = {};
 
 const SearchBox = (props: Props) => {
-  const { qValue, setQValue } = useQParams();
-  const [value, setValue] = useState<string>(qValue);
+  const { search, setSearch } = useQParams();
+  const [value, setValue] = useState<string>(search);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     setTimeout(() => {
-      setQValue(e.target.value);
+      setSearch(e.target.value);
     }, 1500);
   };
 
@@ -21,7 +21,7 @@ const SearchBox = (props: Props) => {
     <TextField
       name="search_box"
       id="search_box"
-      label="search"
+      label="بحث"
       value={value}
       onChange={handleChange}
       sx={{

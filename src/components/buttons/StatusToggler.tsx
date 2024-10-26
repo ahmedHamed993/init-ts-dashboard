@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Switch from "@mui/material/Switch";
-import fetching from "../../helpers/fetching";
+import fetching from "../../helpers/fetching/fetching";
 import { useSelector } from "react-redux";
-import { UserSliceState } from "../../types/types";
+import { UserState } from "../../types/types";
 import fireAlert from "../../helpers/alerts/fireAlert";
 type Props = {
   defaultValue: boolean;
@@ -11,7 +11,7 @@ type Props = {
 
 const StatusToggler = ({ defaultValue, apiPath }: Props) => {
   const userToken = useSelector(
-    (state: UserSliceState) => state.user.userToken
+    (state: UserState) => state.user.userToken
   );
   const [checked, setChecked] = useState(!defaultValue);
 

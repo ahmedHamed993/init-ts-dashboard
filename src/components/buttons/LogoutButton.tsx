@@ -16,7 +16,7 @@ import {
 import ConfirmationAlert from "../alerts/ConfirmationAlert";
 import DialogWrapper from "../dialog/DialogWrapper";
 // fetch
-import fetching from "../../helpers/fetching";
+import fetching from "../../helpers/fetching/fetching";
 // alerts
 import fireAlert from "../../helpers/alerts/fireAlert";
 // icons
@@ -25,7 +25,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { removeUserToken } from "../../redux/features/user/userSlice";
 
 // types
-import { UserSliceState } from "../../types/types";
+import { UserState } from "../../types/types";
 
 type Props = {};
 
@@ -33,7 +33,7 @@ const LogoutButton = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userToken = useSelector(
-    (state: UserSliceState) => state.user.userToken
+    (state: UserState) => state.user.userToken
   );
   const [open, setOpen] = useState(false);
   const logoutUser = async () => {

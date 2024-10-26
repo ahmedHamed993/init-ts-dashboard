@@ -17,7 +17,7 @@ const PagePagination = ({ totalItems, itemsPerPage }: TProps) => {
       }}
       color="primary"
       variant="outlined"
-      sx={{ margin: "auto" }}
+      sx={{ margin: "0 auto" }}
     />
   ) : (
     <></>

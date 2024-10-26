@@ -2,13 +2,13 @@ import { useSearchParams } from "react-router-dom";
 
 const useQParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const qValue = searchParams.get("search") || "";
+  const search = searchParams.get("search") || "";
 
-  const setQValue = (searchValue: string) => {
+  const setSearch = (searchValue: string) => {
     searchParams.set("search", searchValue);
     searchParams.set("page", "1");
     setSearchParams(searchParams);
   };
-  return { qValue, setQValue };
+  return { search, setSearch };
 };
 export default useQParams;

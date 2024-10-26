@@ -45,16 +45,16 @@ const defaultSortingOptions: SortOptions[] = [
 ];
 
 const SortBox = ({ sortingOptions = defaultSortingOptions }: Props) => {
-  const { sortParam, setSortParam } = useSortParams();
+  const { sort, setSort } = useSortParams();
   const handleChange = (e: SelectChangeEvent<string>) => {
-    setSortParam(e.target.value);
+    setSort(e.target.value);
   };
   return (
     <Box sx={{ flex: "1", minWidth: "230px" }}>
       <FormControl fullWidth sx={{ backgroundColor: "#fff" }}>
         <InputLabel>ترتيب حسب</InputLabel>
         <Select
-          value={sortParam as string}
+          value={sort as string}
           label={"ترتيب حسب"}
           onChange={handleChange}
         >

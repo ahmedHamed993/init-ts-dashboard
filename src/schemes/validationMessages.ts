@@ -34,4 +34,8 @@ export const validationMessages = {
   should: {
     number: "يجب ان يكون رقم",
   },
+  number: {
+    valid: "يجب ان يكون رقم",
+    min_0: "يجب ان يكون اكبر من الصفر",
+  },
 };
