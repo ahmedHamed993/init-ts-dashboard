@@ -1,9 +1,10 @@
 import React, { Dispatch, ReactNode, SetStateAction } from "react";
-import { Dialog, DialogContent } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 type TProps = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
+  title?: string;
 };
 
 const DialogWrapper = ({ open, setOpen, children }: TProps) => {
@@ -12,17 +13,14 @@ const DialogWrapper = ({ open, setOpen, children }: TProps) => {
     <Dialog
       open={open}
       onClose={handleClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
       maxWidth="md"
+      sx={{ ".MuiPaper-root": { minWidth: { xs: "290px", sm: "500px" } } }}
     >
-      <DialogContent
-        sx={{ minWidth: { xs: "300px", sm: "400px", md: "550px" } }}
-      >
-        {children}
-      </DialogContent>
+      {children}
     </Dialog>
   );
 };
 
 export default DialogWrapper;
+
+// sx={{ minWidth: { xs: "300px", sm: "400px", md: "550px" } }}
